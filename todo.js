@@ -1,18 +1,15 @@
 function addTask() {
-    const taskInput = document.getElementById('taskInput');
-    const taskText = taskInput.value.trim();
-    const message = document.getElementById('addMessage');
-  
-    if (taskText) {
-      const li = document.createElement('li');
-      li.textContent = taskText;
-      document.getElementById('taskList').appendChild(li);
-      taskInput.value = '';
-      message.textContent = "✅ Task Added";
-  
-      setTimeout(() => {
-        message.textContent = "";
-      }, 2000);
-    }
+  const input = document.getElementById("taskInput");
+  const taskText = input.value.trim();
+  const message = document.getElementById("message");
+
+  if (taskText !== "") {
+    const list = document.getElementById("taskList");
+    const li = document.createElement("li");
+    li.textContent = taskText;
+    list.appendChild(li);
+    input.value = "";
+    message.textContent = "Task added!";
+    setTimeout(() => message.textContent = "", 1500);
   }
-  
+}
