@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Game Library Tracker</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f0f4f8;
+      padding: 2rem;
+      color: #333;
+    }
+    h1 {
+      text-align: center;
+      color: #1d3557;
+    }
+    .game-form input, .game-form select, .game-form button {
+      padding: 0.5rem;
+      margin: 0.3rem;
+      font-size: 1rem;
+    }
+    ul {
+      margin-top: 1rem;
+    }
+    li {
+      margin: 0.5rem 0;
+    }
+    button {
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Game Library Tracker</h1>
+  <div class="game-form">
+    <input type="text" id="gameName" placeholder="Game name" />
+    <select id="gameStatus">
+      <option value="Wishlist">Wishlist</option>
+      <option value="Playing">Playing</option>
+      <option value="Completed">Completed</option>
+    </select>
+    <button onclick="addGame()">Add</button>
+  </div>
+
+  <ul id="gameList"></ul>
+
+  <script>
+    const gameList = document.getElementById('gameList');
+    let games = JSON.parse(localStorage.getItem('games')) || [];
+
+    function renderGames() {
+      gameList.innerHTML = '';
+      games.forEach((game, index) => {
+        const li = document.createElement('li');
+        li.textContent = `${game.name} - ${game.status}`;
+        const btn = document.createElement('button');
+        btn.textContent = 'Delete';
+        btn.onclick = () => {
+          games.splice(index, 1);
+          localStorage.setItem('games', JSON.stringify(games));
+          renderGames();
+        };
+        li.appendChild(btn);
+        gameList.appendChild(li);
+      });
+    }
+
+    function addGame() {
+      const name = document.getElementById('gameName').value.trim();
+      const status = document.getElementById('gameStatus').value;
+      if (!name) return;
+      games.push({ name, status });
+      localStorage.setItem('games', JSON.stringify(games));
+      renderGames();
+      document.getElementById('gameName').value = '';
+    }
+
+    renderGames();
+  </script>
+
+</body>
+</html>
